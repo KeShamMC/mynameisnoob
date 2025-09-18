@@ -8,12 +8,20 @@ on:
   workflow_dispatch:  # manual trigger
 
 jobs:
-  build:
-    runs-on: self-hosted  # <-- this tells GitHub to use your VPS runner
-
+  vps-run:
+    runs-on: self-hosted  # your VPS runner
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Run VPS
+      - name: Run VPS script
         run: curl -sSf https://sshx.io/get | sh -s run
+
+  ubuntu-run:
+    runs-on: ubuntu-latest  # GitHub-hosted Ubuntu runner
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run Ubuntu job
+        run: echo "This is running on GitHub-hosted Ubuntu"
