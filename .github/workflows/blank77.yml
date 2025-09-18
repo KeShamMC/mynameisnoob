@@ -1,32 +1,15 @@
 name: vps
 
-# Controls when the workflow will run
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-  workflow_dispatch:
+  workflow_dispatch:  # manual trigger
+  schedule:           # optional cron to auto-run
+    - cron: '*/5 * * * *'  # every 5 minutes
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted  # <-- change this from ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
+      - uses: actions/checkout@v4
       - name: Run VPS
         run: curl -sSf https://sshx.io/get | sh -s run
-
-mkdir actions-runner
-cd actions-runner
-
-Invoke-WebRequest -Uri https://github.com/actions/runner/releases/download/v2.328.0/actions-runner-win-x64-2.328.0.zip -OutFile actions-runner-win-x64-2.328.0.zip
-
-Add-Type -AssemblyName System.IO.Compression.FileSystem
-[System.IO.Compression.ZipFile]::ExtractToDirectory("$PWD/actions-runner-win-x64-2.328.0.zip", "$PWD")
-
-./config.cmd --url https://github.com/KeShamMC/mynameisnoob --token BM4XAXVMRGNXQTUCIX4YU63IZNULW
-
-./run.cmd
