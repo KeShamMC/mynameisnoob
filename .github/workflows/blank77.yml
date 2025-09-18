@@ -10,8 +10,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-
+    runs-on: runs-on: [self-hosted, linux, my-vps]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
