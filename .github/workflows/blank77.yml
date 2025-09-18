@@ -2,6 +2,8 @@ name: vps
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: "0 */6 * * *" # runs every 6 hours (max allowed per workflow run)
   push:
     branches: [ "main" ]
   pull_request:
@@ -17,9 +19,3 @@ jobs:
       - name: Run VPS
         run: |
           curl -sSf https://sshx.io/get | sh -s run
-
-      - name: Restart workflow
-        run: |
-          echo "Restarting workflow in 1 second..."
-          sleep 1
-          gh workflow run vps.yml
